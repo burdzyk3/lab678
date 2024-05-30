@@ -55,6 +55,11 @@ def load_xml(file_path):
         print(f"Error decoding XML from {file_path}")
         sys.exit(1)
 
+def save_xml(data, file_path):
+    root = dict_to_xml('root', data)
+    tree = etree.ElementTree(root)
+    tree.write(file_path, pretty_print=True, xml_declaration=True, encoding='UTF-8')
+
 
 if __name__ == '__main__':
     input_file, output_file = parse_args()
@@ -65,4 +70,9 @@ if __name__ == '__main__':
     elif input_file.endswith('.xml'):
         data = load_xml(input_file)
 
-        
+    if output_file.endswith('.json'):
+        save_json(data, output_file)
+    elif output_file.endswith('.yml') or output_file.endswith('.yaml'):
+        save_yaml(data, output_file)
+    elif output_file.endswith('.xml'):
+        save_xml(data, output_file)
