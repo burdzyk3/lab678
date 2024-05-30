@@ -46,6 +46,15 @@ def save_yaml(data, file_path):
     with open(file_path, 'w') as file:
         yaml.dump(data, file)
 
+def load_xml(file_path):
+    try:
+        tree = etree.parse(file_path)
+        root = tree.getroot()
+        return xml_to_dict(root)
+    except etree.XMLSyntaxError:
+        print(f"Error decoding XML from {file_path}")
+        sys.exit(1)
+
 
 if __name__ == '__main__':
     input_file, output_file = parse_args()
@@ -53,5 +62,7 @@ if __name__ == '__main__':
         data = load_json(input_file)
     elif input_file.endswith('.yml') or input_file.endswith('.yaml'):
         data = load_yaml(input_file)
-        if output_file.endswith('.yml') or output_file.endswith('.yaml'):
-            save_yaml(data, output_file)
+    elif input_file.endswith('.xml'):
+        data = load_xml(input_file)
+
+        
