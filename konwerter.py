@@ -29,7 +29,13 @@ def load_json(file_path):
             sys.exit(1)
     return data
 
+def save_json(data, file_path):
+    with open(file_path, 'w') as file:
+        json.dump(data, file, indent=4)
+
 if __name__ == '__main__':
     input_file, output_file = parse_args()
     if input_file.endswith('.json'):
         data = load_json(input_file)
+        if output_file.endswith('.json'):
+            save_json(data, output_file)
